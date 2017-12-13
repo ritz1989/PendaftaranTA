@@ -4,38 +4,77 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} - My Flask Application</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
+    <link rel="stylesheet" href="bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="css/style_table.css" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+
+        #footer {
+            height: 50px;
+            line-height: 50px;
+            background: #FFE4C4;
+            color: #000000;
+            width: 100%;
+            position: absolute;
+            bottom: 0px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/" class="navbar-brand">Application name</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('home') }}">Home</a></li>
-                    <li><a href="{{ url_for('about') }}">About</a></li>
-                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                    <li><a href="{{ url_for('loginForm') }}">Login</a></li>
-                </ul>
-            </div>
+    <header class="header">
+        <div class="wrapping">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/" class="navbar-brand">SISTEM INFORMASI REGISTRASI TUGAS AKHIR</a>
+                </div>
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mahasiswa <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{url_for('input_ta')}}">Input Data TA</a></li>
+                                <li><a href="{{url_for('biodata_mhs')}}">Edit Biodata MHS</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dosen <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{url_for('approve_dosen')}}">Approve Tugas Akhir</a></li>
+                                <li><a href="{{url_for('biodata_dosen')}}">Edit Biodata Dosen</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{url_for('ta')}}">List Tugas Akhir</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url_for('loginForm') }}"><span class="glyphicon glyphicon-log-in"></span> login</a></li>
+                    </ul>
+                </div>
+            </nav>
         </div>
-    </div>
-
+    </header>
     <div class="container body-content">
         {% block content %}{% endblock %}
         <hr />
         <footer>
-            <p>&copy; {{ year }} - My Flask Application</p>
+            <p>&copy; {{ year }} - HHI (HARITS. HERI. INDRA)</p>
         </footer>
     </div>
 

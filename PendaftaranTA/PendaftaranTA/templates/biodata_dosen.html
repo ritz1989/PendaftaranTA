@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+
+	<div class="wrapping">	
+		<div class="admins">
+			<div style="width:500px;" class="container">
+			<h2 style="text-align:center;margin-bottom:20px;font-size:20px;">BIODATA DOSEN</h2>
+			<form action="/action_page.php">
+				<div class="form-group">
+					<label for="nip">NIP/NIK:</label>
+					<input type="text" class="form-control" id="nip" placeholder="NIP/NIK" name="NIP">
+				</div>
+				<div class="form-group">
+					<label>Nama Dosen:</label>
+					<input type="text" class="form-control" placeholder="Nama Dosen">
+				</div>
+                <div class="form-check">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="asRadio" id="mhsRadio" value="Pria" checked>
+                            Pria
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="asRadio" id="dsnRadio" value="Wanita">
+                            Wanita
+                        </label>
+                    </div>
+                  </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="text" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Lingkup keahlian:</label>
+                        <select class="form-control" id="sel1">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button class="btn btn-default">Cancel</button>
+</form>
+		</div>
+		</div>
+	</div>
+{% endblock %}
+<script>
+$( document ).ready(function() {
+    $('#birthday').datepicker({
+    });
+});
+</script>

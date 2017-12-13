@@ -8446,3 +8446,28 @@ System.FormatException: Input string was not in a correct format.
 2017-12-13T13:02:46: Deleting 2 files
 2017-12-13T13:02:46: Deleting "D:\Project\Flask-Phyton\PendaftaranTA\PendaftaranTA\env\.ptvs\_dummy_threading.idb"
 2017-12-13T13:02:46: Deleting "D:\Project\Flask-Phyton\PendaftaranTA\PendaftaranTA\env\.ptvs\_dummy__threading_local.idb"
+
+2017-12-13T20:50:45: Start analysis
+2017-12-13T20:50:46: IncludeModulesFromModulePath = win32com
+2017-12-13T20:50:46: Including d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login because flask_login.config needs updating
+2017-12-13T20:50:46: Deleting 0 files
+2017-12-13T20:50:46: astropy.CallDepth = 0
+2017-12-13T20:50:46: delphixpy.CallDepth = 0
+2017-12-13T20:50:46: matplotlib.CallDepth = 3
+2017-12-13T20:50:46: pandas.CallDepth = 0
+2017-12-13T20:50:46: sympy.CallDepth = 0
+2017-12-13T20:50:47: Start group "d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login" with 8 files
+2017-12-13T20:50:47: Parsing complete
+2017-12-13T20:50:47: Analyzing "flask_login.config" ("d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login\config.py")
+2017-12-13T20:50:47: Analyzing "flask_login.login_manager" ("d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login\login_manager.py")
+2017-12-13T20:50:47: Analyzing "flask_login.mixins" ("d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login\mixins.py")
+2017-12-13T20:50:47: Analyzing "flask_login.signals" ("d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login\signals.py")
+2017-12-13T20:50:47: Analyzing "flask_login.utils" ("d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login\utils.py")
+2017-12-13T20:50:47: Analyzing "flask_login._compat" ("d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login\_compat.py")
+2017-12-13T20:50:47: Analyzing "flask_login.__about__" ("d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login\__about__.py")
+2017-12-13T20:50:47: Analyzing "flask_login" ("d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login\__init__.py")
+2017-12-13T20:50:47: Starting analysis of 8 modules
+2017-12-13T20:50:48: Analysis complete
+2017-12-13T20:50:48: Saving group "d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login"
+2017-12-13T20:50:48: End of group "d:\project\flask-phyton\pendaftaranta\pendaftaranta\env\lib\site-packages\flask_login"
+2017-12-13T20:50:49: Deleting 0 files

@@ -1,14 +1,13 @@
 ﻿{% extends "layout.html" %}
 {% block content %}
+    <h4>Silahkan Login Terlebih Dahulu</h4>
     <form action="/actionLogin" method="post">
     <div class="form-group">
-        <label for="exampleInputEmail1">Username</label>
-        <input type="text" class="form-control" name="exampleInputEmail1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter NRP/NIP">
+        <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter NRP/NIP">
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" name="exampleInputPassword1" placeholder="Password">
+        <input type="password" class="form-control" name="password" placeholder="Password">
     </div>
     <div class="form-check">
         <div class="form-check">
