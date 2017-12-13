@@ -1,0 +1,35 @@
+﻿{% extends "layout.html" %}
+{% block content %}
+    <form action="/actionLogin" method="post">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Username</label>
+        <input type="text" class="form-control" name="exampleInputEmail1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter NRP/NIP">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" name="exampleInputPassword1" placeholder="Password">
+    </div>
+    <div class="form-check">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="asRadio" id="mhsRadio" value="mahasiswa" checked>
+                Login Sebagai Mahasiswa
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="asRadio" id="dsnRadio" value="dosen">
+                Login Sebagai Dosen
+            </label>
+        </div>
+        <div class="form-check disabled">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="asRadio" id="tuRadio" value="Tata Usaha" >
+                Login Sebagai TU
+            </label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
