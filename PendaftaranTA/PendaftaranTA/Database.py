@@ -1,8 +1,9 @@
 import MySQLdb
-class DatabaseHandler(object):
+class Database(object):
     """description of class"""
-    def CreateConnection():
-        database = "pendaftaran_TA"
+    
+def CreateConnection():
+        database = "pendaftaranta"
         username = 'sa'
         password = 'sa123*'
         host = 'localhost'
@@ -10,10 +11,10 @@ class DatabaseHandler(object):
         db = MySQLdb.connect(host=host, user=username, passwd=password, db=database )
         return db;
 
-    def ExecuteSql(query, handle):
+def ExecuteSql(query):
         db = CreateConnection()
-        cursor = db.cursor
+        cursor = db.cursor()
         cursor.execute(query)
-        handle
         return cursor
-    
+
+

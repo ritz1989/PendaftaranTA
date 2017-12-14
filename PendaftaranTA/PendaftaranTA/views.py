@@ -5,6 +5,9 @@ Routes and views for the flask application.
 from datetime import datetime
 from flask import Flask, render_template, request, session, url_for, escape, redirect
 from PendaftaranTA import app
+from PendaftaranTA.Database import ExecuteSql
+from PendaftaranTA.Mahasiswa import Mahasiswa
+
 
 app.secret_key = 'gua kece karna gua kece'
 
@@ -16,6 +19,7 @@ def home():
         'index.html',
         title='Home Page',
         year=datetime.now().year,
+        loginInfo = checkLoginInfo()
     )
 
 @app.route('/contact')
@@ -40,13 +44,15 @@ def about():
 
 @app.route('/login')
 def loginForm():
-    """Renders the about page."""
-    return render_template(
-        'login.html',
-        title='About',
-        year=datetime.now().year,
-        message='Your application description page.'
-    )
+    if(checkLoginInfo()=='login'):
+        return render_template(
+            'login.html',
+            title='About',
+            year=datetime.now().year,
+            message='Your application description page.'
+        )
+    else:
+        return logout()
 
 @app.route('/approve-dosen')
 def approve_dosen():
@@ -70,13 +76,27 @@ def biodata_dosen():
 
 @app.route('/biodata-mhs')
 def biodata_mhs():
-    """Renders the about page."""
+    mhss = Mahasiswa()
+    pria = ''
+    wanita = ''
+    if(checkLoginInfo!='login'):
+        mhss = mhss.getMahasiswaInfo(checkLoginInfo())
+    if mhss.sex=='L':
+        pria = 'checked'
+        
+    else:
+        wanita = 'checked'
+        
+
     return render_template(
         'biodata_mhs.html',
-        title='About',
-        year=datetime.now().year,
-        message='Your application description page.'
+        title='Biodata Mahasiswa',
+        mhs = mhss,
+        loginInfo = checkLoginInfo(),
+        Pria = pria,
+        Wanita = wanita
     )
+
 
 @app.route('/input-ta')
 def input_ta():
@@ -114,9 +134,19 @@ def actionLogin():
         username =  request.form['username']
         password = request.form['password']
         loginAs = request.form['asRadio']
-        session['username'] = username
-        session['login'] = loginAs
-        return redirect(url_for('home'))
+        if login(username, password, loginAs):
+            return render_template(
+            'index.html',
+            title='login failed',
+            loginInfo=session['username'],
+            message='Login Success'
+            )
+        else:
+            return render_template(
+            'login.html',
+            title='login failed',
+            message='Login Failed.'
+            )
     return render_template(
         'about.html',
         title='fail',
@@ -124,6 +154,51 @@ def actionLogin():
         message='Your application description page.'
     )
 
-def clearSession():
+@app.route('/biodata-mhs-update', methods=['POST'])
+def biodata_mhs_update():
+    if request.method=='POST':
+        mhss = Mahasiswa()
+        mhss.id = request.form['mhsId']
+        mhss.NIM = request.form['NRP']
+        mhss.nama = request.form['nama']
+        mhss.semester = request.form['semester']
+        mhss.angkatan = request.form['angkatan']
+        mhss.sex = request.form['sex']
+        mhss.email = request.form['email']
+        mhss.updateMahasiswa(mhss)
+        
+    return redirect(url_for('biodata_mhs'))
+    
+
+
+def logout():
     session.pop('username', None)
     session.pop('login', None)
+    return redirect(url_for('home'))
+
+def login(username, password, loginAs):
+
+    query = ''
+    if loginAs=='mahasiswa':
+       query = "select count(*) from {0} where {1} = '{2}' AND password = '{3}' ".format('mahasiswa','id_mahasiswa' ,username, password)
+    elif loginAs == 'dosen':
+       query = "select count(*) from {0} where {1} = '{2}' AND password = '{3}' ".format('dosen', 'NIP',username, password)
+    else:
+       query = "select count(*) from {0} where {1} = '{2}' AND password = '{3}' ".format('admin', 'NIP',username, password)
+    try:
+        cursor =ExecuteSql(query)
+        row = cursor.fetchone()
+    except :
+        pass
+    if row[0]<=0:         
+        return False
+    session['username'] = username
+    session['login'] = loginAs
+    return True
+
+def checkLoginInfo():
+    if 'username' in session:
+        return session['username']
+    else:
+        return 'login'
+

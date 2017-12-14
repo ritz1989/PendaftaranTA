@@ -28,7 +28,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PendaftaranTA\DatabaseHandler.py">
+    <Compile Include="PendaftaranTA\Database.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PendaftaranTA\Mahasiswa.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="runserver.py" />
