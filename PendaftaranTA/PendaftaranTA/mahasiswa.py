@@ -102,14 +102,57 @@ class Mahasiswa(object):
             `jenis_kelamin`,
             `Tugas_Akhir_id`)
             VALUES
-            {0},
-            {1},
-            {2},
-            {3},
-            {4},
-            {5},
-            {6},
-            {7};
+            '{0}',
+            '{1}',
+            '{2}',
+            '{3}',
+            '{4}',
+            '{5}',
+            '{6}',
+            '{7}';
             """.format(mhs.NIM, mhs.nama,mhs.semester, mhs.angkatan, mhs.password, mhs.email, mhs.sex, mhs.ta_id)
             rowcount = ExecuteSql(query)
             return rowcount
+      
+    def getListTa(self):
+         query = """
+         select id_mahasiswa,
+            nama_mahasiswa,
+            semester,
+            angkatan,
+            tugas_akhir.Judul,
+            dosen.Nama,
+            dosen.NIP,
+            tugas_akhir.status,
+            tugas_akhir.id
+            from mahasiswa
+            join tugas_akhir on mahasiswa.Tugas_Akhir_id = tugas_akhir.id
+            join dosen on tugas_akhir.id_dosen = dosen.id
+         """
+         cursor = ExecuteSql(query)
+         result = cursor.fetchall()
+         hasil = []
+         for hsl in result:
+            daftarTA = DaftarTA()
+            daftarTA.id_mahasiswa = hsl[0]
+            daftarTA.nama_mahasiswa = hsl[1]
+            daftarTA.semester = hsl[2]
+            daftarTA.angkatan = hsl[3]
+            daftarTA.judul = hsl[4]
+            daftarTA.namaDosen = hsl[5]
+            daftarTA.nipDosen=hsl[6]
+            daftarTA.statusTA = hsl[7]
+            daftarTA.idTa = hsl[8]
+            hasil.append(daftarTA)
+         return hasil
+
+class DaftarTA():
+    id_mahasiswa = 0
+    nama_mahasiswa = ''
+    semester = 0
+    angkatan = 0
+    judul = ''
+    namaDosen = ''
+    nipDosen=''
+    statusTA = ''
+    idTa = ''

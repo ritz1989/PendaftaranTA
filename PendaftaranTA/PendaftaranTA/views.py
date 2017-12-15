@@ -6,8 +6,8 @@ from datetime import datetime
 from flask import Flask, render_template, request, session, url_for, escape, redirect
 from PendaftaranTA import app
 from PendaftaranTA.Database import ExecuteSql
-from PendaftaranTA.Mahasiswa import Mahasiswa
-
+from PendaftaranTA.Mahasiswa import Mahasiswa, DaftarTA
+from PendaftaranTA.Dosen import *
 
 app.secret_key = 'gua kece karna gua kece'
 
@@ -66,12 +66,13 @@ def approve_dosen():
 
 @app.route('/biodata-dosen')
 def biodata_dosen():
-    """Renders the about page."""
+    dosen = getDosenProfile(session['username'])
+    keahlian = getKeahlian(dosen.id)
     return render_template(
         'biodata_dosen.html',
         title='About',
         year=datetime.now().year,
-        message='Your application description page.'
+        profile = dosen
     )
 
 @app.route('/biodata-mhs')
@@ -79,28 +80,26 @@ def biodata_mhs():
     mhss = Mahasiswa()
     pria = ''
     wanita = ''
-    if(checkLoginInfo!='login'):
-        mhss = mhss.getMahasiswaInfo(checkLoginInfo())
-    if mhss.sex=='L':
-        pria = 'checked'
-        
+    if(session['username']):
+        mhss = mhss.getMahasiswaInfo(session['username'])
+        if mhss.sex=='L':
+            pria = 'checked'
+        else:
+            wanita = 'checked'
+        return render_template(
+            'biodata_mhs.html',
+            title='Biodata Mahasiswa',
+            mhs = mhss,
+            Pria = pria,
+            Wanita = wanita)
     else:
-        wanita = 'checked'
-        
-
-    return render_template(
-        'biodata_mhs.html',
-        title='Biodata Mahasiswa',
-        mhs = mhss,
-        loginInfo = checkLoginInfo(),
-        Pria = pria,
-        Wanita = wanita
-    )
+        return redirect(url_for('loginForm'))
 
 
 @app.route('/input-ta')
 def input_ta():
-    """Renders the about page."""
+    "ambil daftar dosen"
+    "ambil daftar ke"
     return render_template(
         'input_ta.html',
         title='About',
@@ -120,12 +119,14 @@ def lab():
 
 @app.route('/ta')
 def ta():
-    """Renders the about page."""
+    mahasiswa  = Mahasiswa()
+    talist = mahasiswa.getListTa()
     return render_template(
         'ta.html',
         title='About',
         year=datetime.now().year,
-        message='Your application description page.'
+        message='Your application description page.',
+        daftarTA = talist
     )
 
 @app.route('/actionLogin', methods=['POST'])
@@ -138,7 +139,6 @@ def actionLogin():
             return render_template(
             'index.html',
             title='login failed',
-            loginInfo=session['username'],
             message='Login Success'
             )
         else:

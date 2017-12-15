@@ -18,3 +18,14 @@ def ExecuteSql(query):
         return cursor
 
 
+def ExecuteNonQuery(strsql):
+    db = CreateConnection()
+    cursor = db.cursor()
+    sql = strsql
+    try:
+        rowcount = cursor.execute(sql)
+    except:
+        rowcount = 0
+    db.close();
+    return rowcount;
+

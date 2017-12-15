@@ -2,65 +2,41 @@
 
 {% block content %}
 
+<div class="container">
+    <h2>Table</h2>
+    <p>Daftar Tugas Akhir Mahasiswa</p>
+    <div class="table-responsive">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>NRP</th>
+                    <th>Nama Mahasiswa</th>
+                    <th>Semester</th>
+                    <th>Angkatan</th>
+                    <th>Judul</th>
+                    <th>Dosen Pembimbing</th>
+                    <th>NIP</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in daftarTA %}
+                  <tr>
+                    <td>{{entry.id_mahasiswa}}</td>
+                    <td>{{entry.nama_mahasiswa}}</td>
+                    <td>{{entry.semester}}</td>
+                    <td>{{entry.angkatan}}</td>
+                    <td><b>{{entry.judul}}</b></td>
+                    <td>{{entry.namaDosen}}</td>
+                    <td>{{entry.nipDosen}}</td>
+                    <td>{{entry.statusTA}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
-	<div class="wrapping">	
-		<div class="admins">
-			<div style="width:500px;" class="container">
-			<h2 style="text-align:center;margin-bottom:20px;font-size:20px;">LIST TUGAS AKHIR</h2>
-			<div class="dashboard">
-					<table class="schedule schedule_dashboard">
-						<tr>
-							<th>Edit</th>
-							<th>NIP</th>
-							<th>Nama Dosen</th>
-							<th>Jenis Kelamin</th>
-							<th>No Hp</th>
-							<th>Email</th>
-							<th>Delete</th>
-						</tr>
-						<tr>
-							<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
-						</tr>
-						<tr>
-							<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
-						</tr>
-						<tr>
-							<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
-						</tr>
-						<tr>
-							<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
-						</tr>
-					</table>
-					<br />
-					<a class="btn btn-default" href="/admin">Batal</a>
-				</div>
-		</div>
-		</div>
-	</div>
 {% endblock %}
 <script>
 $( document ).ready(function() {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - My Flask Application</title>
+    <title>{{ title }} - SIRTA</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
@@ -27,6 +27,20 @@
             position: absolute;
             bottom: 0px;
         }
+        .column {
+            float: left;
+            width: 50%;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
     </style>
 </head>
 
@@ -45,26 +59,46 @@
                 <div class="container-fluid">
                     <ul class="nav navbar-nav">
                         <li><a href="{{ url_for('home') }}">Home</a></li>
+                        {% if session['login']=='mahasiswa'%}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mahasiswa <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{url_for('input_ta')}}">Input Data TA</a></li>
-                                <li><a href="{{url_for('biodata_mhs')}}">Edit Biodata MHS</a></li>
+                                <li><a href="{{url_for('input_ta')}}">Daftar TA</a></li>
+                                <li><a href="{{url_for('biodata_mhs')}}">Edit Profile</a></li>
                             </ul>
                         </li>
+                        {% endif %}
+                        {% if session['login']=='dosen' %}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dosen <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{url_for('approve_dosen')}}">Approve Tugas Akhir</a></li>
-                                <li><a href="{{url_for('biodata_dosen')}}">Edit Biodata Dosen</a></li>
+                                <li><a href="{{url_for('biodata_dosen')}}">Edit Profile</a></li>
                             </ul>
                         </li>
+                        {% endif %}
+                        {% if session['login']=='TU' %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/">Manajemen User</a></li>
+                                <li><a href="/">Edit Profile</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
                         <li><a href="{{url_for('ta')}}">List Tugas Akhir</a></li>
                         <li><a href="{{ url_for('about') }}">About</a></li>
                         <li><a href="{{ url_for('contact') }}">Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{{ url_for('loginForm') }}"><span class="glyphicon glyphicon-log-in"></span> {{loginInfo}}</a></li>
+                        <li><a href="{{ url_for('loginForm') }}"><span class="glyphicon glyphicon-log-in"></span> 
+                            {%  if session['username'] %}
+                                {{ session['username'] }}
+                            {% endif %}
+                            {%  if not session['username'] %}
+                                Login
+                            {% endif %}
+                            </a></li>
                     </ul>
                 </div>
             </nav>

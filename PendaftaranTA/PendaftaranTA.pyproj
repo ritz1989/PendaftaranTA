@@ -31,6 +31,9 @@
     <Compile Include="PendaftaranTA\Database.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PendaftaranTA\Dosen.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PendaftaranTA\Mahasiswa.py">
       <SubType>Code</SubType>
     </Compile>
