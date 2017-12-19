@@ -11474,3 +11474,11 @@ System.FormatException: Input string was not in a correct format.
 2017-12-14T07:11:52: Deleting 2 files
 2017-12-14T07:11:52: Deleting "D:\Project\Flask-Phyton\PendaftaranTA\PendaftaranTA\env\.ptvs\_dummy_threading.idb"
 2017-12-14T07:11:52: Deleting "D:\Project\Flask-Phyton\PendaftaranTA\PendaftaranTA\env\.ptvs\_dummy__threading_local.idb"
+
+2017-12-19T08:52:43: Start analysis
+2017-12-19T08:52:43: IncludeModulesFromModulePath = win32com
+2017-12-19T08:52:45: Deleting 0 files
+
+2017-12-19T15:32:59: Start analysis
+2017-12-19T15:33:00: IncludeModulesFromModulePath = win32com
+2017-12-19T15:33:00: Deleting 0 files

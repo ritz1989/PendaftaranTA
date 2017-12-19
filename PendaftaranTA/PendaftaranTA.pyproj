@@ -55,6 +55,7 @@
     <Content Include="PendaftaranTA\templates\biodata_mhs.html" />
     <Content Include="PendaftaranTA\templates\input_ta.html" />
     <Content Include="PendaftaranTA\templates\lab.html" />
+    <Content Include="PendaftaranTA\templates\pilih_dosen.html" />
     <Content Include="PendaftaranTA\templates\ta.html" />
     <Content Include="PendaftaranTA\templates\Login.html" />
     <Content Include="requirements.txt" />

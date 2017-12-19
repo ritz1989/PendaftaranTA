@@ -2,41 +2,28 @@
 
 {% block content %}
 
-
 	<div class="wrapping">	
 		<div class="admins">
 			<div style="width:500px;" class="container">
 			<h2 style="text-align:center;margin-bottom:20px;font-size:20px;">INPUT DATA TUGAS AKHIR</h2>
-			<form action="/action_page.php">
+			<form action="/input-ta-pilih-dosen" method="post">
 				<div class="form-group">
 					<label for="judul">Judul</label>
 					<input type="text" class="form-control" id="judul" placeholder="Judul Tugas Akhir" name="judul">
 				</div>
-				<div class="form-group">
-					  <label for="sel1">Lingkup TA:</label>
-					  <select class="form-control" id="sel1">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-					  </select>
-				</div>
+                <div class="form-group">
+                    <label>Keahlian:</label>
+                    <select name="keahlian" id="keahlian" class="form-control">
+                        {% for row in keahlian %}
+                            <option value="{{ row.id }}">{{ row.keahlian }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 				<div class="form-group">
 					<label for="comment">Overview:</label>
-					<textarea class="form-control" rows="5" id="overview"></textarea>
-				</div>
-				<div class="form-group">
-					  <label for="sel1">Dosen:</label>
-					  <select class="form-control" id="sel1">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-					  </select>
+					<textarea class="form-control" rows="5" id="overview" name="overview"></textarea>
 				</div> 
-				<button type="submit" class="btn btn-primary">Submit</button>
-				<button class="btn btn-default"><a href="lab.html">Show LAB</a></button>
-				<button class="btn btn-default">Batal</button>
+				<button type="submit" class="btn btn-primary">Lanjutkan</button>
 			</form>
 		</div>
 		</div>
@@ -47,4 +34,26 @@ $( document ).ready(function() {
     $('#birthday').datepicker({
     });
 });
+</script>
+
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+        $("#keahlian").change(function () { 
+            var keahlian = $("#keahlian").val();
+            alert(keahlian);
+           /* $.ajax({
+                url: "/input-ta-refresh-dosen",
+                data: "keahlian=" + keahlian,
+                type: 'POST',
+                cache: false,
+                success: function (msg) {
+                    //jika data sukses diambil dari server kita tampilkan
+                    //di <select id=kota>
+                    $("#dosen").html(msg);
+                }
+            });*/
+        });
+    });
+
 </script>

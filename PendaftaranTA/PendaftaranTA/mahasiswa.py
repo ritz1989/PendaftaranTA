@@ -1,4 +1,4 @@
-from PendaftaranTA.Database import ExecuteSql, CreateConnection
+from PendaftaranTA.Database import *
 from PendaftaranTA.views import *
 
 class Mahasiswa(object):
@@ -116,7 +116,8 @@ class Mahasiswa(object):
       
     def getListTa(self):
          query = """
-         select id_mahasiswa,
+         select 
+			mahasiswa.id_mahasiswa,
             nama_mahasiswa,
             semester,
             angkatan,
@@ -127,7 +128,7 @@ class Mahasiswa(object):
             tugas_akhir.id
             from mahasiswa
             join tugas_akhir on mahasiswa.Tugas_Akhir_id = tugas_akhir.id
-            join dosen on tugas_akhir.id_dosen = dosen.id
+            join dosen on tugas_akhir.id_dosen = dosen.id order by tugas_akhir.id desc
          """
          cursor = ExecuteSql(query)
          result = cursor.fetchall()
@@ -156,3 +157,62 @@ class DaftarTA():
     nipDosen=''
     statusTA = ''
     idTa = ''
+
+class dataTa():
+    judul=''
+    id_keahlian = 0
+    overview = ''
+    id_dosen = ''
+
+def daftarTa(dataTa, nrp):
+    query = "select id from mahasiswa where id_mahasiswa = '{0}'".format(nrp)
+    res = ExecuteSql(query).fetchone()
+    idMhs = res[0]
+    queries = []
+    queries.append("INSERT INTO `tugas_akhir`(`id_dosen`,`Judul`,`Topik`,`status`,`overview`,`id_mahasiswa`) VALUES ('{0}', '{1}', '{2}', 'baru', '{3}', '{4}')".format(dataTa.id_dosen, dataTa.judul, dataTa.id_keahlian, dataTa.overview, idMhs))
+    queries.append("update mahasiswa set tugas_akhir_id = LAST_INSERT_ID() where id_mahasiswa = '{0}'".format(nrp))
+    return ExecuteNonQueries(queries)
+
+def validasi_pendaftaranTA(nrp):
+    query = """select count(*) from tugas_akhir
+            join mahasiswa on tugas_akhir.id_mahasiswa = mahasiswa.id
+            where mahasiswa.id_mahasiswa = '{0}' AND (tugas_akhir.status='aktif' OR tugas_akhir.status='baru');
+            """.format(nrp)
+    cur = ExecuteSql(query)
+    res = cur.fetchone()
+    if(res[0]>0):
+        return False
+    else:
+        return True
+
+def getTaMhs(nrp):
+    query = """select 
+			mahasiswa.id_mahasiswa,
+            nama_mahasiswa,
+            semester,
+            angkatan,
+            tugas_akhir.Judul,
+            dosen.Nama,
+            dosen.NIP,
+            tugas_akhir.status,
+            tugas_akhir.id
+            from mahasiswa
+            join tugas_akhir on mahasiswa.Tugas_Akhir_id = tugas_akhir.id or tugas_akhir.id_mahasiswa = mahasiswa.id
+            join dosen on tugas_akhir.id_dosen = dosen.id 
+            where mahasiswa.id_mahasiswa = '{0}' order by tugas_akhir.id desc;""".format(nrp)
+    cur = ExecuteSql(query)
+    res = cur.fetchall()
+    hasil = []
+    for hsl in res:
+            daftarTA = DaftarTA()
+            daftarTA.id_mahasiswa = hsl[0]
+            daftarTA.nama_mahasiswa = hsl[1]
+            daftarTA.semester = hsl[2]
+            daftarTA.angkatan = hsl[3]
+            daftarTA.judul = hsl[4]
+            daftarTA.namaDosen = hsl[5]
+            daftarTA.nipDosen=hsl[6]
+            daftarTA.statusTA = hsl[7]
+            daftarTA.idTa = hsl[8]
+            hasil.append(daftarTA)
+    return hasil

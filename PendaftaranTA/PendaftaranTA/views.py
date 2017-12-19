@@ -3,10 +3,10 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import Flask, render_template, request, session, url_for, escape, redirect
+from flask import Flask, render_template, request, session, url_for, escape, redirect, jsonify
 from PendaftaranTA import app
 from PendaftaranTA.Database import ExecuteSql
-from PendaftaranTA.Mahasiswa import Mahasiswa, DaftarTA
+from PendaftaranTA.Mahasiswa import *
 from PendaftaranTA.Dosen import *
 
 app.secret_key = 'gua kece karna gua kece'
@@ -56,24 +56,71 @@ def loginForm():
 
 @app.route('/approve-dosen')
 def approve_dosen():
-    """Renders the about page."""
+    tas = getTugasAkhirBimbingan(session['username'])
     return render_template(
         'approve_dosen.html',
-        title='About',
+        title='Manajemen Tugas Akhir Mahasiswa',
         year=datetime.now().year,
-        message='Your application description page.'
+        message='Your application description page.',
+        datas = tas
     )
+
+@app.route('/update-ta', methods=['POST', 'GET'])
+def update_ta():
+    if request.method=='POST':
+        data = request.form['taId']
+        updateTaMhs(request.form['taId'],request.form['aksi'])
+    elif request.method=='GET':
+        taid = request.args.get('taid')
+        aksi = request.args.get('aksi')
+        updateTaMhs(taid,aksi)
+    return redirect(url_for('approve_dosen'))
+
 
 @app.route('/biodata-dosen')
 def biodata_dosen():
+    pria = ''
+    wanita = ''
     dosen = getDosenProfile(session['username'])
-    keahlian = getKeahlian(dosen.id)
+    dosen.keahlian = getKeahlianDosen(dosen.NIP)
+    if dosen.jenis_kelamin=='L':
+            pria = 'checked'
+    else:
+            wanita = 'checked'
+    keahlian = getAllKeahlian()
+    for ahli in keahlian:
+        for d in dosen.keahlian:
+            if d.id == ahli.id:
+                ahli._ui_checked = "checked"
     return render_template(
         'biodata_dosen.html',
         title='About',
         year=datetime.now().year,
-        profile = dosen
+        profile = dosen,
+        keahlians = keahlian,
+        Pria = pria,
+        Wanita = wanita
     )
+
+@app.route('/tambah-keahlian')
+def tambah_keahlian():
+    if request.method=='POST':
+        keahlian = request.form['keahlian']
+        insertKeahlian(keahlian)
+    return keahlian
+
+@app.route('/biodata-dosen-update', methods=['POST'])
+def biodata_dosen_update():
+    if request.method=='POST':
+        dosen = Dosen()
+        dosen.id = request.form['dsnId']
+        dosen.NIP = request.form['NIP']
+        dosen.nama = request.form['nama']
+        dosen.jenis_kelamin = request.form['sex']
+        dosen.email = request.form['email']
+        dosen.keahlian = request.form.getlist('keahlian')
+        updateProfileDosen(dosen)
+    return redirect(url_for('biodata_dosen'))
 
 @app.route('/biodata-mhs')
 def biodata_mhs():
@@ -98,14 +145,54 @@ def biodata_mhs():
 
 @app.route('/input-ta')
 def input_ta():
-    "ambil daftar dosen"
-    "ambil daftar ke"
+    if validasi_pendaftaranTA(session['username']):
+        Keahlian = getAllKeahlian()
+        dsn = getAllDosen()
+        return render_template(
+            'input_ta.html',
+            title='About',
+            keahlian=Keahlian,
+            year=datetime.now().year,
+            dosen = dsn
+        )
+    else:
+        talist = getTaMhs(session['username'])
     return render_template(
-        'input_ta.html',
-        title='About',
+        'ta.html',
+        title='Daftar Tugas Akhir',
         year=datetime.now().year,
-        message='Your application description page.'
+        message='Anda tidak dapat mendaftar tugas akhir. silahkan hubungi dosen anda untuk membatalkan tugas akhir yang telah terdaftar.',
+        daftarTA = talist
     )
+
+@app.route('/input-ta-pilih-dosen', methods=['POST'])
+def input_ta_pilih_dosen():
+    if request.method=='POST':
+        dat = dataTa()
+        dat.judul = request.form['judul']
+        dat.id_keahlian = request.form['keahlian']
+        dat.overview = request.form['overview']
+        dosen = getDosenByKeahlian(dat.id_keahlian)
+    return render_template(
+        'pilih_dosen.html',
+        title='Pilih Pembimbing',
+        daftarDosen=dosen,
+        year=datetime.now().year,
+        data = dat
+    )
+
+@app.route('/daftar-ta', methods=['POST'])
+def daftar_ta():
+    if request.method=='POST':
+        dat = dataTa()
+        dat.judul = request.form['judul']
+        dat.id_keahlian = request.form['keahlian']
+        dat.overview = request.form['overview']
+        dat.id_dosen = request.form['id_dosen']
+        daftarTa(dat, session['username'])
+    return (redirect(url_for('ta')))
+
+
 
 @app.route('/lab')
 def lab():
@@ -125,7 +212,7 @@ def ta():
         'ta.html',
         title='About',
         year=datetime.now().year,
-        message='Your application description page.',
+        message='Daftar Tugas Akhir Mahasiswa.',
         daftarTA = talist
     )
 

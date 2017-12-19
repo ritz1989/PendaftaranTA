@@ -1,0 +1,38 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h2>Table</h2>
+    <p>Daftar Dosen</p>
+    <div class="table-responsive">
+        <form action="/daftar-ta" method="post">
+            <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>NRP</th>
+                        <th>Nama Dosen</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for entry in daftarDosen %}
+                    <tr>
+                        <td><button type="submit" class="btn btn-primary" name="id_dosen" value="{{ entry[0] }}">pilih</button></td>
+                        <td>{{entry[1]}}</td>
+                        <td>{{entry[2]}}</td>
+                        <td><input id="judul" name="judul" type="hidden" value="{{ data.judul }}"></td>
+                        <td><input id="id_keahlian" name="keahlian" type="hidden" value="{{ data.id_keahlian }}"></td>
+                        <td><input id="overview" name="overview" type="hidden" value="{{data.overview}}"></td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+

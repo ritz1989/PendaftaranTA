@@ -26,6 +26,18 @@ def ExecuteNonQuery(strsql):
         rowcount = cursor.execute(sql)
     except:
         rowcount = 0
+    db.commit()
     db.close();
     return rowcount;
 
+def ExecuteNonQueries(strs):
+    db = CreateConnection()
+    cursor = db.cursor()
+    for sql in strs: 
+        try:
+            rowcount = cursor.execute(sql)
+        except:
+            rowcount = 0
+    db.commit()
+    db.close();
+    return rowcount;
